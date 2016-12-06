@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run" name="HelloAnt">
+	<description>A Simple Hello Ant Project</description>
+	<property name="srcDir" location="src" />
+	<property name="buildDir" location="build" />
+	<target name="init" depends="clean">
+		<tstamp />
+		<mkdir dir="${buildDir}" />
+	</target>
+	<target name="compile" depends="init">
+		<javac srcdir="${srcDir}" destdir="${buildDir}" includeantruntime="false"/>
+	</target>
+	<target name="dist" depends="compile">
+		<jar destfile="${buildDir}/HelloAnt-${DSTAMP}${TSTAMP}.jar" basedir="${buildDir}">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0" />
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="HelloAnt" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="run" depends="compile">
+		<ant target="dist" />
+		<java classname="HelloAnt" classpath="${buildDir}"/>
+		<java classname="HelloWorld" classpath="${buildDir}/HelloAnt-${DSTAMP}${TSTAMP}.jar"/>
+	</target>
+	<target name="clean">
+		<delete dir="${buildDir}" />
+	</target>
+</project>
